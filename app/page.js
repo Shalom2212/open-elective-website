@@ -44,6 +44,11 @@ export default function Home() {
   const [options, setOptions] = useState("");
   const [branch, setBranch] = useState("");
 
+  axios.interceptors.request.use((config) => {
+    config.headers["Cache-Control"] = "no-cache";
+    return config;
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
