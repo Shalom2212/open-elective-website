@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Table, Input, Button, Form, message, Select } from "antd";
+import { Table, Input, Button, Form, message, Select, Spin } from "antd";
 import axios from "axios";
 
 import Head from "next/head";
@@ -43,6 +43,7 @@ export default function Home() {
   const [phone, setPhone] = useState("");
   const [options, setOptions] = useState("");
   const [branch, setBranch] = useState("");
+  const [studentSubmitLoading, setStudentSubmitLoading] = useState(false);
 
   axios.interceptors.request.use((config) => {
     config.headers["Cache-Control"] = "no-cache";
@@ -87,6 +88,7 @@ export default function Home() {
   };
 
   const handleSubmit = async (value) => {
+    setStudentSubmitLoading(true);
     try {
       const res = await axios.post("/api/addstudent", {
         sid: value.subject,
@@ -111,6 +113,7 @@ export default function Home() {
       console.log(err);
       message.error(err);
     }
+    setStudentSubmitLoading(false);
   };
 
   return (
@@ -124,19 +127,15 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-center my-8">
           Open Elective for the AY-2023-24
         </h1>
-        {/* <div className="my-4">
-          <Input.Search
-            placeholder="Search"
-            onChange={(e) => setSearchText(e.target.value)}
-            style={{ width: 200 }}
-          />
-        </div> */}
+
         <div className="my-8">
           <h2 className="text-2xl font-bold">Enter Details</h2>
-          <p className="text-red-500">
-            Please enter all details correctly based on that in next step open
-            elective subject options are showed
-          </p>
+          <div className="text-red-500">
+            Please enter all details correctly{" "}
+            <div>
+              Based on USN in next step open elective subject options are showed
+            </div>
+          </div>
           <Form layout="vertical" onFinish={handleNext}>
             <Form.Item
               label="Name"
@@ -147,31 +146,40 @@ export default function Home() {
                 placeholder="Enter your name"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
-                disabled={isUSNSubmitted}
+                // disabled={isUSNSubmitted}
               />
             </Form.Item>
             <Form.Item
               label="USN"
               name="usn"
-              rules={[{ required: true, message: "Please input USN!" }]}
+              rules={[
+                { required: true, message: "Please input USN!" },
+                { min: 10, message: "Enter your full USN" },
+              ]}
             >
               <Input
                 placeholder="Enter your USN"
                 onChange={(e) => setUsn(e.target.value)}
                 value={usn}
-                disabled={isUSNSubmitted}
+                // disabled={isUSNSubmitted}
               />
             </Form.Item>
             <Form.Item
               label="Email"
               name="email"
-              rules={[{ required: true, message: "Please input email!" }]}
+              rules={[
+                { required: true, message: "Please input email!" },
+                {
+                  type: "email",
+                  message: "enter valid email",
+                },
+              ]}
             >
               <Input
                 placeholder="Enter your email"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
-                disabled={isUSNSubmitted}
+                // disabled={isUSNSubmitted}
               />
             </Form.Item>
             <Form.Item
@@ -183,7 +191,7 @@ export default function Home() {
                 placeholder="Enter your phone number"
                 onChange={(e) => setPhone(e.target.value)}
                 value={phone}
-                disabled={isUSNSubmitted}
+                // disabled={isUSNSubmitted}
               />
             </Form.Item>
             {!isUSNSubmitted ? (
@@ -209,7 +217,11 @@ export default function Home() {
               </Select>
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button
+                type="primary"
+                htmlType="submit"
+                loading={studentSubmitLoading}
+              >
                 Submit
               </Button>
             </Form.Item>
@@ -223,10 +235,6 @@ export default function Home() {
           loading={isSubjectDataLoading}
         />
       </main>
-
-      {/* <footer className="mt-8 text-center">
-        <p>Footer Content Here</p>
-      </footer> */}
     </div>
   );
 }

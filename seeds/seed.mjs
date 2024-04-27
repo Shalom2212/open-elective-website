@@ -47,7 +47,7 @@ async function main() {
       },
       {
         subjectName: "Renewable Energy Resources",
-        subjectCode: "21EE653",
+        subjectCode: "21EE652",
         faculty: "Mrs.Shruthi S",
         branch: "EEE",
         seats: 60,
