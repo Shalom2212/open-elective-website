@@ -2,11 +2,11 @@
 const nextConfig = {
   headers: () => [
     {
-      source: "/:path*",
+      source: "/api/subjects",
       headers: [
         {
           key: "Cache-Control",
-          value: "no-store",
+          value: "no-store, ",
         },
       ],
     },
