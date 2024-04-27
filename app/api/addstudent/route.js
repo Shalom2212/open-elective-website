@@ -12,7 +12,7 @@ export async function POST(req) {
     where: { usn: data.usn },
   });
 
-  if (subjectdata.seats <= 57) {
+  if (subjectdata.seats <= 0) {
     return NextResponse.json({ CODE: 401 });
   }
   if (eusn) {
