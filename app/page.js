@@ -100,7 +100,7 @@ export default function Home() {
       if (res.data.CODE == 400) {
         alert("USN already registered");
       } else if (res.data.CODE == 401) {
-        alert(`Registration for this course is closed`);
+        alert(`Registration for this course is full and closed`);
       } else {
         message.success(
           `${usn} Successfully registered to subject ${res.data.subjectName} ${res.data.subjectCode} ${res.data.faculty}`,
