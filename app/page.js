@@ -48,6 +48,8 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await axios.get("/api/subjects", {
+          cache: "no-store",
+
           params: {
             timestamp: Date.now(),
           },
