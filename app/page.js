@@ -47,7 +47,11 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/subjects");
+        const response = await axios.get("/api/subjects", {
+          params: {
+            timestamp: Date.now(),
+          },
+        });
         setSubjectsData(response.data);
         setIsSubjectDataLoading(false);
       } catch (error) {
