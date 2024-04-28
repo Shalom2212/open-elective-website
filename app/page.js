@@ -2,8 +2,8 @@
 import { useState, useEffect } from "react";
 import { Table, Input, Button, Form, message, Select, Spin } from "antd";
 import axios from "axios";
-
 import Head from "next/head";
+import { useRouter } from "next/navigation";
 
 const columns = [
   {
@@ -46,6 +46,8 @@ export default function Home() {
   const [studentSubmitLoading, setStudentSubmitLoading] = useState(false);
   const [isStudentDataSubmited, setIsStudentDataSubmited] = useState(false);
 
+  const router = useRouter();
+
   axios.interceptors.request.use((config) => {
     config.headers["Cache-Control"] = "no-cache";
     return config;
@@ -54,18 +56,11 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // const response = await axios.get("/api/subjects", {
-        //   cache: "no-store",
-
-        //   params: {
-        //     timestamp: Date.now(),
-        //   },
-        // });
-        console.log("fetch data subjects");
+        //console.log("fetch data subjects");
         const response = await fetch("/api/subjects", {
           cache: "no-store",
         });
-        //console.log(response);
+
         setSubjectsData(await response.json());
         setIsSubjectDataLoading(false);
       } catch (error) {
@@ -77,7 +72,6 @@ export default function Home() {
   }, [isStudentDataSubmited]);
 
   const handleNext = async () => {
-    console.log(usn);
     const extractedCode = usn.match(/.{5}([A-Za-z]{2})/);
 
     if (extractedCode && extractedCode.length > 1) {
@@ -110,9 +104,12 @@ export default function Home() {
       } else if (res.data.CODE == 401) {
         alert(`Registration for this course is full and closed`);
       } else {
-        message.success(
-          `${usn} Successfully registered to subject ${res.data.subjectName} ${res.data.subjectCode} ${res.data.faculty}`,
-          100
+        // message.success(
+        //   `${usn} Successfully registered to subject ${res.data.subjectName} ${res.data.subjectCode} ${res.data.faculty}`,
+        //   100
+        // );
+        router.push(
+          `/result/${usn}/${res.data.subjectName}/${res.data.subjectCode}/${res.data.faculty}`
         );
       }
       setIsStudentDataSubmited(true);
