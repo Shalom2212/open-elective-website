@@ -44,6 +44,7 @@ export default function Home() {
   const [options, setOptions] = useState("");
   const [branch, setBranch] = useState("");
   const [studentSubmitLoading, setStudentSubmitLoading] = useState(false);
+  const [isStudentDataSubmited, setIsStudentDataSubmited] = useState(false);
 
   axios.interceptors.request.use((config) => {
     config.headers["Cache-Control"] = "no-cache";
@@ -68,7 +69,7 @@ export default function Home() {
     };
 
     fetchData();
-  }, []);
+  }, [isStudentDataSubmited]);
 
   const handleNext = async () => {
     console.log(usn);
@@ -109,6 +110,7 @@ export default function Home() {
           100
         );
       }
+      setIsStudentDataSubmited(true);
     } catch (err) {
       console.log(err);
       message.error(err);
