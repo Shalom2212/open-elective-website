@@ -61,6 +61,7 @@ export default function Home() {
             timestamp: Date.now(),
           },
         });
+        console.log(response.data);
         setSubjectsData(response.data);
         setIsSubjectDataLoading(false);
       } catch (error) {
