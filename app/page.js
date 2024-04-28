@@ -54,15 +54,18 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("/api/subjects", {
-          cache: "no-store",
+        // const response = await axios.get("/api/subjects", {
+        //   cache: "no-store",
 
-          params: {
-            timestamp: Date.now(),
-          },
+        //   params: {
+        //     timestamp: Date.now(),
+        //   },
+        // });
+        const response = await fetch("/api/subjects", {
+          cache: "no-store",
         });
-        console.log(response.data);
-        setSubjectsData(response.data);
+        //console.log(response);
+        setSubjectsData(await response.json());
         setIsSubjectDataLoading(false);
       } catch (error) {
         console.error(error);
