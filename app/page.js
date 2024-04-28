@@ -61,6 +61,7 @@ export default function Home() {
         //     timestamp: Date.now(),
         //   },
         // });
+        console.log("fetch data subjects");
         const response = await fetch("/api/subjects", {
           cache: "no-store",
         });
