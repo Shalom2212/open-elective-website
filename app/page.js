@@ -48,6 +48,8 @@ export default function Home() {
 
   const router = useRouter();
 
+  //refr
+
   axios.interceptors.request.use((config) => {
     config.headers["Cache-Control"] = "no-cache";
     return config;
